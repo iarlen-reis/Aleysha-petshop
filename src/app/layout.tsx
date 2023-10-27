@@ -1,12 +1,14 @@
+import './globals.css'
 import type { Metadata } from 'next'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import Providers from '@/components/Providers'
+
 import {
   Ruluko,
   Amatic_SC as Amatic,
   Crimson_Text as Crimson,
 } from 'next/font/google'
-import Header from '@/components/Header'
-import './globals.css'
-import Providers from '@/components/Providers'
 
 const ruluko = Ruluko({
   subsets: ['latin'],
@@ -43,6 +45,7 @@ export default function RootLayout({
       >
         <Header />
         <Providers>{children}</Providers>
+        <Footer />
       </body>
     </html>
   )

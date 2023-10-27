@@ -8,7 +8,7 @@ interface ProvidersProps {
 
 const Providers = ({ children }: ProvidersProps) => {
   return (
-    <main className="p-2 container mx-auto">
+    <main className="p-2 container mx-auto mt-20">
       <Theme>{children}</Theme>
     </main>
   )

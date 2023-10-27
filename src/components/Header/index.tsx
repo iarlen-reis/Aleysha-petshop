@@ -11,9 +11,9 @@ const Header = () => {
   ]
 
   return (
-    <header className="w-full p-2 fixed top-0 left-0">
-      <div className="max-w-[1300px] w-full flex flex-col md:flex-row md:items-center md:justify-between mx-auto">
-        <Link href="/" className="w-fit">
+    <header className="w-full py-2 px-2 fixed top-0 left-0 bg-background z-10">
+      <div className="container w-full flex flex-col md:flex-row md:items-center md:justify-between mx-auto">
+        <Link href="/" className="w-fit flex-1">
           <Image
             src={LogoImage}
             alt="Logo do Aleysha Petshop"

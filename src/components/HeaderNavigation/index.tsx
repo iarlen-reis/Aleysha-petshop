@@ -20,7 +20,7 @@ const HeaderNavigation = ({ pagesLinks }: HeaderNavigationProps) => {
     <nav>
       <ul
         className={`z-[-1] left-0 w-full h-screen pb-12 absolute pl-2 bg-background-input transition-all duration-500 ease-in md:flex md:items-center md:pl-0 md:pb-0 md:h-fit md:static md:z-auto md:w-auto md:bg-background ${
-          isOpen ? 'top-20' : 'top-[-1080px]'
+          isOpen ? 'top-16' : 'top-[-1080px]'
         }`}
       >
         {pagesLinks.map((link) => (
@@ -35,7 +35,7 @@ const HeaderNavigation = ({ pagesLinks }: HeaderNavigationProps) => {
         ))}
       </ul>
       <div
-        className="absolute right-8 top-4 cursor-pointer md:hidden"
+        className="absolute right-3 top-4 cursor-pointer md:hidden"
         onClick={handleMenuMobile}
       >
         {isOpen ? <XIcon size={32} /> : <MenuIcon size={32} />}
