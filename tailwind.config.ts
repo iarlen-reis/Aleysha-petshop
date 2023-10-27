@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
@@ -18,9 +19,9 @@ const config: Config = {
         'background-rose': '#E11D48',
         'background-input': '#E5E5E5',
         'background-button': '#171717',
-        'text-light': '#000000',
-        'text-sub-title': 'rgba(23, 23, 23, 0.55)',
-      }
+        'light': '#000000',
+        'sub-title': 'rgba(23, 23, 23, 0.55)',
+      },
     },
   },
   plugins: [],
