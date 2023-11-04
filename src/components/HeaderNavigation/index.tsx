@@ -1,7 +1,9 @@
 'use client'
 import Link from 'next/link'
 import React, { useState } from 'react'
+import { twMerge } from 'tailwind-merge'
 import { XIcon, MenuIcon } from 'lucide-react'
+import { useSelectedLayoutSegment } from 'next/navigation'
 
 interface HeaderNavigationProps {
   pagesLinks: {
@@ -11,6 +13,7 @@ interface HeaderNavigationProps {
 }
 const HeaderNavigation = ({ pagesLinks }: HeaderNavigationProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+  const segment = useSelectedLayoutSegment()
 
   const handleMenuMobile = () => {
     setIsOpen(!isOpen)
@@ -26,7 +29,14 @@ const HeaderNavigation = ({ pagesLinks }: HeaderNavigationProps) => {
         {pagesLinks.map((link) => (
           <li
             key={link.name}
-            className="w-fit font-ruluko text-xl my-5 md:my-0 md:mr-4 transition-all duration-200 hover:border-b hover:border-b-background-rose"
+            className={twMerge(
+              'w-fit font-ruluko text-xl my-5 md:my-0 md:mr-4 transition-all duration-200 border-b border-b-transparent hover:border-b-background-rose',
+              `${
+                segment === link.name.toLowerCase()
+                  ? 'border-b-background-rose'
+                  : ''
+              }`,
+            )}
           >
             <Link href={link.href} onClick={handleMenuMobile}>
               {link.name}

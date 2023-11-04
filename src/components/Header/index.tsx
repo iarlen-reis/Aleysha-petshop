@@ -7,7 +7,7 @@ import HeaderNavigation from '@/components/HeaderNavigation'
 const Header = () => {
   const pageLinks = [
     { name: 'MEUS PETS', href: '/' },
-    { name: 'PRODUTOS', href: '/' },
+    { name: 'PRODUTOS', href: '/produtos?page=1' },
   ]
 
   return (
