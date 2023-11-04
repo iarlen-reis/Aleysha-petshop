@@ -47,7 +47,7 @@ export default function Home() {
           />
           <CardHome.Button
             text="Conferir seção de caẽs"
-            link="/produtos?categoria=cachorros"
+            link="/produtos?page=1&category=cachorros"
             icon={PawPrintIcon}
           />
         </CardHome.TextContainer>
@@ -68,7 +68,7 @@ export default function Home() {
           />
           <CardHome.Button
             text="Conferir seção de gatos"
-            link="/produtos?categoria=gatos"
+            link="/produtos?page=1&category=gatos"
             icon={PawPrintIcon}
           />
         </CardHome.TextContainer>
@@ -88,7 +88,7 @@ export default function Home() {
           />
           <CardHome.Button
             text="Conferir todas seções"
-            link="/produtos"
+            link="/produtos?page=1"
             icon={PawPrintIcon}
           />
         </CardHome.TextContainer>
