@@ -8,6 +8,7 @@ const Header = () => {
   const pageLinks = [
     { name: 'MEUS PETS', href: '/' },
     { name: 'PRODUTOS', href: '/produtos?page=1' },
+    { name: 'DASHBOARD', href: '/dashboard' },
   ]
 
   return (

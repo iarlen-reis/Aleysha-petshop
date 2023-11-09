@@ -1,10 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
+import { api } from '@/services/api'
+import { formatePrice } from '@/utils/formatePrice'
 import { ProductCard } from '@/components/ProductCard'
 import PageNavigation from '@/components/PageNavigation'
 import { calculatePortion } from '@/utils/calculatePortion'
-import { formatePrice } from '@/utils/formatePrice'
-import { api } from '@/services/api'
+import ButtonAddToCart from '@/components/Product/ButtonAddToCart'
 
 interface ParamProps {
   params: {
@@ -76,9 +77,7 @@ const ProductDetails = async ({ params }: ParamProps) => {
             </p>
           </div>
           <div className="w-full max-w-[360px]">
-            <button className="w-full text-center font-crimson text-base uppercase py-3 px-4 lg:text-lg rounded text-white bg-background-rose hover:opacity-80 transition-all duration-200">
-              Adicionar ao carrinho
-            </button>
+            <ButtonAddToCart product={product.product} />
           </div>
         </div>
       </div>
