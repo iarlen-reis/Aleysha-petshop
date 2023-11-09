@@ -43,9 +43,11 @@ export default function RootLayout({
       <body
         className={`${ruluko.variable} ${amaticSc.variable} ${crimsonText.variable} bg-background`}
       >
-        <Header />
-        <Providers>{children}</Providers>
-        <Footer />
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
       </body>
     </html>
   )
