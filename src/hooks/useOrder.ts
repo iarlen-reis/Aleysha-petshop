@@ -9,21 +9,22 @@ interface productProps {
   quantity: number
 }
 
-interface OrderProps {
+interface CreateOrderProps {
   userId: string
   products: productProps[]
+  total: number
 }
 
 interface useOrderProps {
   createOrderLoading: boolean
-  createOrder: (data: OrderProps) => void
+  createOrder: (data: CreateOrderProps) => void
 }
 
 export const useOrder = (): useOrderProps => {
   const { handleClearCart } = useCart()
 
   const { mutate: createOrder, isLoading: createOrderLoading } = useMutation(
-    async (data: OrderProps) => {
+    async (data: CreateOrderProps) => {
       const response = await api.post('/order', {
         data,
       })

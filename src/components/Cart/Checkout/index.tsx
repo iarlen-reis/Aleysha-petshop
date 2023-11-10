@@ -30,6 +30,7 @@ const Checkout = () => {
     createOrder({
       userId: session?.user.id,
       products,
+      total: cartTotal,
     })
   }
 

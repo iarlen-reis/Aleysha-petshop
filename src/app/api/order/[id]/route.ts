@@ -27,6 +27,9 @@ export async function GET(request: NextRequest, { params }: ParamsProps) {
           },
         },
       },
+      orderBy: {
+        createdAt: 'desc',
+      },
     })
 
     return NextResponse.json(orders)
