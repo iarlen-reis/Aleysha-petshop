@@ -7,6 +7,7 @@ export async function POST(request: NextRequest) {
     const bodySchema = z.object({
       data: z.object({
         userId: z.string(),
+        total: z.number(),
         products: z.array(
           z.object({
             id: z.string(),
@@ -17,13 +18,13 @@ export async function POST(request: NextRequest) {
     })
 
     const {
-      data: { userId, products },
+      data: { userId, products, total },
     } = bodySchema.parse(await request.json())
 
     const order = await prisma.order.create({
       data: {
         userId,
-        total: 0,
+        total,
         orderProducts: {
           create: products.map((product) => ({
             productId: product.id,
