@@ -7,6 +7,8 @@ import PageNavigation from '@/components/PageNavigation'
 import { calculatePortion } from '@/utils/calculatePortion'
 import ButtonAddToCart from '@/components/Product/ButtonAddToCart'
 
+export const dynamic = 'force-dynamic'
+
 interface ParamProps {
   params: {
     id: string
