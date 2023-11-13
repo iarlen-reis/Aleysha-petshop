@@ -2,7 +2,7 @@ import React from 'react'
 import Image from 'next/image'
 import LogoDogImage from '/public/images/login/logo-icon.png'
 import GirlWithCatImage from '/public/images/login/woman-with-cat.png'
-import LoginButtonContainer from '@/components/Login/LoginButtonContainer'
+import LoginButtonContainer from '@/components/app/Login/LoginButtonContainer'
 
 const LoginPage = () => {
   return (

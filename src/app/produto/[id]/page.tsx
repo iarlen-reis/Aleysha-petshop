@@ -5,7 +5,7 @@ import { formatePrice } from '@/utils/formatePrice'
 import { ProductCard } from '@/components/ProductCard'
 import PageNavigation from '@/components/PageNavigation'
 import { calculatePortion } from '@/utils/calculatePortion'
-import ButtonAddToCart from '@/components/Product/ButtonAddToCart'
+import ButtonAddToCart from '@/components/app/Product/ButtonAddToCart'
 
 export const dynamic = 'force-dynamic'
 

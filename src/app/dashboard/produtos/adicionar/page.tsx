@@ -1,6 +1,6 @@
-import ProductForm from '@/components/Dashboard/ProductForm'
-import PageNavigation from '@/components/PageNavigation'
 import React from 'react'
+import PageNavigation from '@/components/PageNavigation'
+import ProductForm from '@/components/app/Dashboard/ProductForm'
 
 const DashboardNewProduct = () => {
   return (

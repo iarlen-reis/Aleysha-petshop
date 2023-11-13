@@ -1,5 +1,5 @@
 import { PawPrintIcon } from 'lucide-react'
-import { CardHome } from '@/components/Home/CardHome'
+import { CardHome } from '@/components/app/Home/CardHome'
 import ManWithDogImage from '/public/images/home/man-dog.png'
 import GirlWithCatImage from '/public/images/home/woman-cat-one.png'
 import CoupleWithCatAndDogImage from '/public/images/home/couple.png'
