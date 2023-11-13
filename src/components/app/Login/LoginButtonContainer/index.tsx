@@ -1,9 +1,9 @@
 'use client'
 import React from 'react'
+import ButtonLogin from '../ButtonLogin'
 import { signIn } from 'next-auth/react'
 import { BsGithub } from 'react-icons/bs'
 import { AiFillGoogleCircle } from 'react-icons/ai'
-import ButtonLogin from '@/components/Login/ButtonLogin'
 
 const LoginButtonContainer = () => {
   const handleLoginWithGithub = () => {

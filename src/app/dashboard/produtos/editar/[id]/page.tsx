@@ -1,7 +1,7 @@
 import React from 'react'
 import { api } from '@/services/api'
 import PageNavigation from '@/components/PageNavigation'
-import ProductEditForm from '@/components/Dashboard/ProductEditForm'
+import ProductEditForm from '@/components/app/Dashboard/ProductEditForm'
 
 interface ParamProps {
   params: {

@@ -2,9 +2,9 @@
 import React from 'react'
 import 'react-toastify/dist/ReactToastify.css'
 import { ToastContainer } from 'react-toastify'
+import { SessionProvider } from 'next-auth/react'
 import { CartProvider } from '@/context/CartContext'
 import { QueryClient, QueryClientProvider } from 'react-query'
-import { SessionProvider } from 'next-auth/react'
 
 interface ProvidersProps {
   children: React.ReactNode

@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { api } from '@/services/api'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/utils/authOptions'
-import OrderCard from '@/components/Order/OrderCard'
+import OrderCard from '@/components/app/Order/OrderCard'
 import PageNavigation from '@/components/PageNavigation'
 import NoOrderImage from '/public/images/order/no-order.png'
 

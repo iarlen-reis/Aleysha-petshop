@@ -1,8 +1,8 @@
 import React from 'react'
-import OrderImage from '@/components/Order/OrderImage'
-import OrderInformation from '@/components/Order/OrderInformation'
-import OrderProductPrice from '@/components/Order/OrderProductPrice'
-import OrderProductInformation from '@/components/Order/OrderProductInformation'
+import OrderImage from '@/components/app/Order/OrderImage'
+import OrderInformation from '@/components/app/Order/OrderInformation'
+import OrderProductPrice from '@/components/app/Order/OrderProductPrice'
+import OrderProductInformation from '@/components/app/Order/OrderProductInformation'
 
 interface ProductProps {
   id: string

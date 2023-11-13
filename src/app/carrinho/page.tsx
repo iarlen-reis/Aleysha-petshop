@@ -1,5 +1,5 @@
 import React from 'react'
-import { CartContent } from '@/components/Cart/CartContent'
+import { CartContent } from '@/components/app/Cart/CartContent'
 
 const CartPage = () => {
   return (
