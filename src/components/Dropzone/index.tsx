@@ -1,5 +1,4 @@
 'use client'
-
 import Image from 'next/image'
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
@@ -7,7 +6,7 @@ import { useDropzone } from 'react-dropzone'
 interface DropzoneProps {
   setFile: React.Dispatch<React.SetStateAction<string>>
   file: string | null
-  loading: boolean
+  loading?: boolean
 }
 const Dropzone = ({ setFile, file, loading }: DropzoneProps) => {
   const onDrop = useCallback(
