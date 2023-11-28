@@ -3,10 +3,10 @@ import React from 'react'
 import Link from 'next/link'
 import { useOrder } from '@/hooks/useOrder'
 import { useSession } from 'next-auth/react'
-import { Buyer } from '@/components/Cart/Buyer'
+import { Buyer } from '@/components/app/Cart/Buyer'
 import { useCart } from '@/context/CartContext'
 import { formatePrice } from '@/utils/formatePrice'
-import { OrderDetails } from '@/components/Cart/OrderDetails'
+import { OrderDetails } from '@/components/app/Cart/OrderDetails'
 
 const Checkout = () => {
   const { data: session } = useSession()
@@ -28,7 +28,6 @@ const Checkout = () => {
     })
 
     createOrder({
-      userId: session?.user.id,
       products,
       total: cartTotal,
     })
