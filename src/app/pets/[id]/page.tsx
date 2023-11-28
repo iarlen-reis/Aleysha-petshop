@@ -1,10 +1,9 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { api } from '@/services/api'
+import { headers } from 'next/headers'
 import { EditIcon } from 'lucide-react'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/utils/authOptions'
+import { useUser } from '@/hooks/useUser'
 import PageNavigation from '@/components/PageNavigation'
 import ButtonDeletePet from '@/components/app/Pets/ButtonDeletePet'
 
@@ -27,15 +26,17 @@ interface PetDetailProps {
 }
 
 const PetDetailPage = async ({ params }: ParamProps) => {
-  const session = await getServerSession(authOptions)
+  const { session } = await useUser()
 
   if (!session) {
     return null
   }
 
-  const response = await api.get<PetDetailProps>(`/pets/${params.id}`)
+  const response = await fetch(`http://localhost:3000/api/pets/${params.id}`, {
+    headers: headers(),
+  })
 
-  const pet = response.data
+  const pet: PetDetailProps = await response.json()
 
   return (
     <div className="min-h-screen flex flex-col gap-6">

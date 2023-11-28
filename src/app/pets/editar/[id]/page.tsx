@@ -1,7 +1,7 @@
+import React from 'react'
+import { headers } from 'next/headers'
 import PageNavigation from '@/components/PageNavigation'
 import PetEditForm from '@/components/app/Pets/PetEditForm'
-import { api } from '@/services/api'
-import React from 'react'
 
 interface Params {
   params: {
@@ -20,9 +20,11 @@ interface PetProps {
 }
 
 const PetEditPage = async ({ params }: Params) => {
-  const response = await api.get<PetProps>(`/pets/${params.id}`)
+  const response = await fetch(`http://localhost:3000/api/pets/${params.id}`, {
+    headers: headers(),
+  })
 
-  const pet = response.data
+  const pet: PetProps = await response.json()
   return (
     <div className="min-h-screen max-w-[600px] w-full mx-auto">
       <div>
