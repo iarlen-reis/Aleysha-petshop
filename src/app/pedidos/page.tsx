@@ -1,8 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { api } from '@/services/api'
-import { getServerSession } from 'next-auth'
-import { authOptions } from '@/utils/authOptions'
+import { headers } from 'next/headers'
 import OrderCard from '@/components/app/Order/OrderCard'
 import PageNavigation from '@/components/PageNavigation'
 import NoOrderImage from '/public/images/order/no-order.png'
@@ -32,11 +30,13 @@ interface OrderProps {
 }
 
 const OrderPage = async () => {
-  const session = await getServerSession(authOptions)
+  const response = await fetch(`http://localhost:3000/api/order`, {
+    headers: new Headers(headers()),
+    method: 'GET',
+    cache: 'no-store',
+  })
 
-  const response = await api.get<OrderProps[]>(`/order/${session?.user.id}`)
-
-  const orders = response.data
+  const orders: OrderProps[] = await response.json()
 
   return (
     <div className="min-h-screen flex flex-col gap-6 pb-12">
