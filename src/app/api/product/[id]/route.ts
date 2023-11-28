@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { prisma } from '@/utils/prisma'
+import prisma from '@/utils/prisma'
 import { NextResponse, NextRequest } from 'next/server'
 
 interface IParamsProps {

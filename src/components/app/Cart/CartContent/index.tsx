@@ -3,9 +3,9 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useCart } from '@/context/CartContext'
-import CartList from '@/components/Cart/CartList'
-import Checkout from '@/components/Cart/Checkout'
 import NoneCartImage from '/public/images/cart/none-cart.png'
+import CartList from '@/components/app/Cart/CartList'
+import Checkout from '@/components/app/Cart/Checkout'
 
 export const CartContent = () => {
   const { cartLength } = useCart()

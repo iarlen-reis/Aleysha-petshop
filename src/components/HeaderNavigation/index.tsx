@@ -2,6 +2,9 @@
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { twMerge } from 'tailwind-merge'
+import { useSession } from 'next-auth/react'
+import { useCart } from '@/context/CartContext'
+import LogoutButton from '../app/Login/LogoutButton'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import {
   XIcon,
@@ -9,7 +12,6 @@ import {
   ShoppingCartIcon,
   ClipboardListIcon,
 } from 'lucide-react'
-import { useCart } from '@/context/CartContext'
 
 interface HeaderNavigationProps {
   pagesLinks: {
@@ -19,8 +21,9 @@ interface HeaderNavigationProps {
 }
 const HeaderNavigation = ({ pagesLinks }: HeaderNavigationProps) => {
   const { cartLength } = useCart()
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const { data: session } = useSession()
   const segment = useSelectedLayoutSegment()
+  const [isOpen, setIsOpen] = useState<boolean>(false)
 
   const handleMenuMobile = () => {
     setIsOpen(!isOpen)
@@ -51,12 +54,14 @@ const HeaderNavigation = ({ pagesLinks }: HeaderNavigationProps) => {
           </li>
         ))}
         <div className="w-fit flex items-center gap-4 mx-auto">
-          <Link href="/pedidos">
-            <ClipboardListIcon
-              size={28}
-              className="hover:text-background-rose transition-all duration-200"
-            />
-          </Link>
+          {session && session.user && (
+            <Link href="/pedidos">
+              <ClipboardListIcon
+                size={28}
+                className="hover:text-background-rose transition-all duration-200"
+              />
+            </Link>
+          )}
           <Link href="/carrinho" className="relative">
             <ShoppingCartIcon
               size={28}
@@ -68,6 +73,7 @@ const HeaderNavigation = ({ pagesLinks }: HeaderNavigationProps) => {
               </span>
             )}
           </Link>
+          {session && session.user && <LogoutButton />}
         </div>
       </ul>
       <div

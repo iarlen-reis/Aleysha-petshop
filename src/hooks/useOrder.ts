@@ -10,7 +10,6 @@ interface productProps {
 }
 
 interface CreateOrderProps {
-  userId: string
   products: productProps[]
   total: number
 }
