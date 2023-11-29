@@ -9,10 +9,7 @@ const CardHomeImageBackground = ({
 }: CardHomeImageBackgroundProps) => {
   return (
     <div
-      className={twMerge(
-        'absolute bottom-0 h-full bg-background-rose z-[-1] rounded-3xl',
-        adicionalStyles,
-      )}
+      className={twMerge('absolute bottom-0 h-full z-[-1]', adicionalStyles)}
     ></div>
   )
 }
