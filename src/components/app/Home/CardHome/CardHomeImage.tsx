@@ -9,7 +9,7 @@ interface CardHomeImageProps {
 
 const CardHomeImage = ({ src, alt, children }: CardHomeImageProps) => {
   return (
-    <div className="relative max-w-[350px] mx-auto sm:max-w-[400px] lg:max-w-[600px] lg:mx-0">
+    <div className="relative max-w-[350px] overflow-hidden mx-auto sm:max-w-[400px] lg:max-w-[600px] lg:mx-0">
       <Image src={src} alt={alt} width={500} height={500} />
       {children}
     </div>

@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="flex flex-col gap-14 pb-16">
       <CardHome.Root>
-        <CardHome.TextContainer>
+        <CardHome.TextContainer aditionalStyles="sm:items-center sm:text-center lg:items-start lg:text-left">
           <CardHome.Title text="Aleysha Petshop" />
           <CardHome.Paragraph
             aditionalStyles="lg:max-w-[500px]"
@@ -27,7 +27,7 @@ export default function Home() {
           alt="Uma mulher de camisa branca e cabelos longos escuros segurando um 
           gato grafite com listras pretas."
         >
-          <CardHome.ImageBackground adicionalStyles="right-0 w-[65%]" />
+          <CardHome.ImageBackground adicionalStyles="right-0 w-[100%] rounded-r-3xl bg-gradient-to-l from-rose-700 via-rose-400 to-background" />
         </CardHome.Image>
       </CardHome.Root>
 
@@ -37,7 +37,7 @@ export default function Home() {
           alt="Um homem com cabelo curto e colorido segurando um cachorro grafite 
           com manchas marrom."
         >
-          <CardHome.ImageBackground adicionalStyles="left-0 w-[57%]" />
+          <CardHome.ImageBackground adicionalStyles="left-0 w-[100%] rounded-l-3xl bg-gradient-to-r from-rose-700 via-rose-400 to-background" />
         </CardHome.Image>
         <CardHome.TextContainer aditionalStyles="sm:items-center lg:items-end">
           <CardHome.Paragraph
@@ -59,7 +59,7 @@ export default function Home() {
           alt="Uma mulher de cabelo curto e colorido segurando um gato cinza com 
           manchas rosadas."
         >
-          <CardHome.ImageBackground adicionalStyles="right-0 w-[57%]" />
+          <CardHome.ImageBackground adicionalStyles="right-0 w-[100%] rounded-r-3xl bg-gradient-to-l from-rose-700 via-rose-400 to-background" />
         </CardHome.Image>
         <CardHome.TextContainer aditionalStyles="sm:items-center lg:items-start">
           <CardHome.Paragraph
@@ -79,7 +79,7 @@ export default function Home() {
           src={CoupleWithCatAndDogImage}
           alt="Um casal, o homem de camisa branca com cabelo e barba escuras segurando um gato de cor preta, uma mulher com camisa tom pastel e cabelo grande enrolado de cor castanha com um gato de cor preta no colo e abraçando um cachorro de cor amarela da raça golden."
         >
-          <CardHome.ImageBackground adicionalStyles="left-0 w-full" />
+          <CardHome.ImageBackground adicionalStyles="left-0 w-[100%] rounded-l-3xl bg-gradient-to-r from-rose-700 via-rose-400 to-background" />
         </CardHome.Image>
         <CardHome.TextContainer aditionalStyles="sm:items-center lg:items-end">
           <CardHome.Paragraph
