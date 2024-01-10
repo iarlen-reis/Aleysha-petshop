@@ -11,6 +11,7 @@ export interface AvailableTimeProps {
   id: string
   dateId: string
   timeSlot: string
+  reserved: boolean
 }
 
 export interface AvailableDate {
