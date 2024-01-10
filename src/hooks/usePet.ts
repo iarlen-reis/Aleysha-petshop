@@ -1,7 +1,7 @@
 'use client'
 import { api } from '@/services/api'
 import { toast } from 'react-toastify'
-import { useMutation } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useRouter } from 'next/navigation'
 
 interface PetProps {
@@ -27,6 +27,7 @@ interface DeletePetProps {
 }
 
 interface UsePetProps {
+  pets: GetPetProps[] | undefined
   createPet: (data: PetProps) => void
   createPetLoading: boolean
   updatePet: (data: UpdatePetProps) => void
@@ -37,6 +38,12 @@ interface UsePetProps {
 
 export const usePet = (): UsePetProps => {
   const router = useRouter()
+
+  const { data: pets } = useQuery('pets', async () => {
+    const response = await api.get<GetPetProps[]>('/pets')
+
+    return response.data
+  })
 
   const { mutate: createPet, isLoading: createPetLoading } = useMutation(
     async (data: PetProps) => {
@@ -93,12 +100,14 @@ export const usePet = (): UsePetProps => {
     {
       onSuccess: () => {
         router.prefetch('/pets')
+        router.push('/pets')
         toast.success('Pet deletado com sucesso')
       },
     },
   )
 
   return {
+    pets,
     createPet,
     createPetLoading,
     updatePet,
