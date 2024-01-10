@@ -38,7 +38,7 @@ const Dropzone = ({ setFile, file, loading }: DropzoneProps) => {
             alt="Imagem do produto"
             width={300}
             height={300}
-            className="max-w-[200px] max-h-[200px] w-full mx-auto rounded-[50%] object-cover"
+            className="w-[200px] h-[200px] mx-auto rounded-[50%] object-fill"
           />
           {!loading && (
             <button

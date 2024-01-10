@@ -11,7 +11,7 @@ const MenuTools = ({ link, text }: MenuToolsProps) => {
     <div className="flex items-center justify-end">
       <Link
         href={link}
-        className="px-4 py-2 uppercase font-ruluko rounded text-white bg-background-button hover:opacity-80 transition-all duration-200"
+        className="px-3 py-2 Capitalize font-ruluko rounded text-white bg-background-rose hover:opacity-80 transition-all duration-200"
       >
         {text}
       </Link>
