@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import prisma from '@/utils/prisma'
 import { useUser } from '@/hooks/useUser'
+import { revalidatePath } from 'next/cache'
 import { NextRequest, NextResponse } from 'next/server'
 
 interface ParamProps {
@@ -96,6 +97,7 @@ export async function PUT(request: NextRequest, { params }: ParamProps) {
       },
     })
 
+    revalidatePath('/pets')
     return NextResponse.json(petUpdated, { status: 200 })
   } catch (error) {
     console.log(error)

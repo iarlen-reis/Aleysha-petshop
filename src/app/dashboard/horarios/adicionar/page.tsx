@@ -45,7 +45,7 @@ const HoraryPage = () => {
           disabled={addHoraryLoading}
         />
         <button
-          className="p-2 bg-background-rose text-white rounded sm:w-[200px] sm:flex sm:self-end sm:items-center sm:justify-center disabled:bg-zinc-400 disabled:animate-pulse"
+          className="p-2 bg-background-rose text-white rounded hover:opacity-80 transition-all sm:w-[200px] sm:flex sm:self-end sm:items-center sm:justify-center disabled:bg-zinc-400 disabled:animate-pulse"
           onClick={handleAddHorary}
           disabled={addHoraryLoading || !selectedDate || !selectedTimes.length}
         >

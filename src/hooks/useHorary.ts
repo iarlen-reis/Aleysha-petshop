@@ -11,6 +11,7 @@ export interface AvailableTimeProps {
   id: string
   dateId: string
   timeSlot: string
+  reserved: boolean
 }
 
 export interface AvailableDate {
@@ -19,10 +20,17 @@ export interface AvailableDate {
   availableTimes: AvailableTimeProps[]
 }
 
+interface EditHoraryProps {
+  availableDateId: string
+  timeSlot: string[]
+}
+
 interface UseHoraryProps {
   addHorary: (data: AddHoraryProps) => void
   addHoraryLoading: boolean
   availableDates: AvailableDate[] | undefined
+  editHorary: (data: EditHoraryProps) => void
+  editHoraryLoading: boolean
 }
 
 export const useHorary = (): UseHoraryProps => {
@@ -53,9 +61,32 @@ export const useHorary = (): UseHoraryProps => {
     return response.data
   })
 
+  const { mutate: editHorary, isLoading: editHoraryLoading } = useMutation(
+    async ({ availableDateId, timeSlot }: EditHoraryProps) => {
+      const response = await axios.put(
+        `http://localhost:3000/api/dates/${availableDateId}`,
+        {
+          timeSlot,
+        },
+      )
+
+      return response.data
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('availableDates')
+        toast.success('Horários atualizados com sucesso!')
+      },
+      onError: () => {
+        toast.error('Erro ao atualizar os horários, tente novamente!')
+      },
+    },
+  )
   return {
     addHorary,
     addHoraryLoading,
     availableDates,
+    editHorary,
+    editHoraryLoading,
   }
 }

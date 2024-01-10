@@ -14,8 +14,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
     }
 
-    const path = request.nextUrl.searchParams.get('path') || '/'
-
     const page = Number(request.nextUrl.searchParams.get('page')) || 1
 
     const totalPets = await prisma.pet.count({
@@ -30,14 +28,13 @@ export async function GET(request: NextRequest) {
 
     const pets = await prisma.pet.findMany({
       where: {
-        userId: session?.user.id,
+        userId: session.user.id,
       },
       take: 6,
       skip: (page - 1) * 6,
     })
 
-    revalidatePath(path)
-
+    revalidatePath('/pets')
     return NextResponse.json(
       { pets, page, maxPage, existNextPage, existPreviousPage },
       { status: 200 },
@@ -94,6 +91,7 @@ export async function POST(request: NextRequest) {
       },
     })
 
+    revalidatePath('/pets')
     return NextResponse.json(petCreated, { status: 201 })
   } catch (error) {
     console.log(error)

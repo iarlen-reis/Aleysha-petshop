@@ -37,6 +37,7 @@ const PetsPage = async ({ searchParams }: Params) => {
     `http://localhost:3000/api/pets?page=${searchParams.page}`,
     {
       headers: headers(),
+      cache: 'no-store',
     },
   )
 

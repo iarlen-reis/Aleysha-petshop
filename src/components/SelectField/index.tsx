@@ -47,7 +47,7 @@ const SelectField = ({
         {...rest}
         autoComplete="off"
         className={twMerge(
-          'p-2 px-3 font-ruluko text-lg rounded-md bg-background-input border border-black/20 md:py-3 disabled:bg-zinc-400 disabled:animate-pulse',
+          'p-3 font-ruluko text-lg rounded-md bg-background-input border border-black/20 md:py-3 disabled:bg-zinc-400 disabled:animate-pulse',
           className,
         )}
       >
