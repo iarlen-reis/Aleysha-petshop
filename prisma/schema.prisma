@@ -80,12 +80,13 @@ model Order {
 }
 
 model OderProduct {
-  id        String  @id @default(cuid())
+  id        String   @id @default(cuid())
   quantity  Int
   orderId   String
-  order     Order   @relation(fields: [orderId], references: [id])
+  order     Order    @relation(fields: [orderId], references: [id])
   productId String
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
 }
 
 model Pet {
