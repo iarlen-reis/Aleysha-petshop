@@ -3,6 +3,7 @@ import { useProducts } from '@/hooks/useProducts'
 import { Pagination } from '@/components/Pagination'
 import { ProductCard } from '@/components/ProductCard'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+import PageNavigation from '@/components/PageNavigation'
 
 interface Params {
   searchParams: {
@@ -14,14 +15,11 @@ const DashboardProducts = async ({ searchParams }: Params) => {
   const products = await useProducts(searchParams.page)
   return (
     <div className="flex flex-col gap-10 min-h-screen pb-12">
-      <div className="mt-4 font-ruluko">
-        <h1 className="text-2xl font-semibold lg:text-3xl">
-          Dashboard de produtos
-        </h1>
-        <p className="text-lg lg:text-xl">
-          Aqui estão todos seus produtos cadastrados.
-        </p>
-      </div>
+      <PageNavigation
+        title="Produtos"
+        backText="Dashboard"
+        backLink="/dashboard"
+      />
       <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:justify-between">
         {products &&
           products.products.map((product) => (
