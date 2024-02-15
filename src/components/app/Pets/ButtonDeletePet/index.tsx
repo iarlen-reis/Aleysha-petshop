@@ -5,14 +5,13 @@ import { usePet } from '@/hooks/usePet'
 
 interface ButtonDeletePetProps {
   id: string
-  userId: string
 }
 
-const ButtonDeletePet = ({ id, userId }: ButtonDeletePetProps) => {
+const ButtonDeletePet = ({ id }: ButtonDeletePetProps) => {
   const { deletePet } = usePet()
 
   const handleDeletePet = () => {
-    deletePet({ id, userId })
+    deletePet(id)
   }
 
   return (

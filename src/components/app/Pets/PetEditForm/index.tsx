@@ -65,7 +65,7 @@ const PetEditForm = (pet: PetProps) => {
         className="max-w-[600px] w-full mx-auto flex flex-col gap-3"
       >
         <div className="w-full flex items-end justify-end">
-          <ButtonDeletePet id={pet.id} userId={session?.user.id} />
+          <ButtonDeletePet id={pet.id} />
         </div>
         <Image
           src={pet.image}
