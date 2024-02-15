@@ -65,6 +65,8 @@ interface useSchedulesProps {
   addShedule: (data: SchedulePostProps) => void
   cancelSheduleLoading: boolean
   cancelShedule: (scheduleId: string) => void
+  finishShedule: (scheduleId: string) => void
+  finishSheduleLoading: boolean
 }
 
 export const useSchedules = (): useSchedulesProps => {
@@ -125,6 +127,21 @@ export const useSchedules = (): useSchedulesProps => {
       },
     )
 
+  const { mutate: finishShedule, isLoading: finishSheduleLoading } =
+    useMutation(
+      async (scheduleId: string) => {
+        const response = await api.patch(`/schedules/${scheduleId}`)
+        return response.data
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries('schedules')
+          queryClient.invalidateQueries('availableDates')
+          toast.success('Agendamento finalizado com sucesso!')
+        },
+      },
+    )
+
   return {
     schedules,
     schedulesLoading,
@@ -135,5 +152,7 @@ export const useSchedules = (): useSchedulesProps => {
     addSheduleLoading,
     cancelShedule,
     cancelSheduleLoading,
+    finishShedule,
+    finishSheduleLoading,
   }
 }
