@@ -56,12 +56,10 @@ const PetScheduleForm = () => {
               name="petId"
               label="Selecione o pet"
               options={
-                (pets &&
-                  pets.map((pet) => ({
-                    label: pet.name,
-                    value: pet.id,
-                  }))) ||
-                []
+                pets?.pets.map((pet) => ({
+                  label: pet.name,
+                  value: pet.id,
+                })) ?? []
               }
               rules={{ required: 'O campo é obrigatório.' }}
               disabled={addSheduleLoading}

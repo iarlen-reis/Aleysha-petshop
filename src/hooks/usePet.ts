@@ -1,10 +1,11 @@
 'use client'
 import { api } from '@/services/api'
 import { toast } from 'react-toastify'
-import { useMutation, useQuery } from 'react-query'
 import { useRouter } from 'next/navigation'
+import { useMutation, useQuery } from 'react-query'
 
 interface PetProps {
+  id: string
   name: string
   image: string
   age: number
@@ -13,26 +14,25 @@ interface PetProps {
   observations: string
 }
 
-interface GetPetProps extends PetProps {
-  id: string
+interface GetAllPetProps {
+  page: number
+  maxPage: number
+  existNextPage: boolean
+  existPreviousPage: boolean
+  pets: PetProps[]
 }
 
 interface UpdatePetProps extends PetProps {
   id: string
 }
 
-interface DeletePetProps {
-  id: string
-  userId: string
-}
-
 interface UsePetProps {
-  pets: GetPetProps[] | undefined
+  pets: GetAllPetProps | undefined
   createPet: (data: PetProps) => void
   createPetLoading: boolean
   updatePet: (data: UpdatePetProps) => void
   updatePetLoading: boolean
-  deletePet: (data: DeletePetProps) => void
+  deletePet: (id: string) => void
   deletePetLoading: boolean
 }
 
@@ -40,7 +40,7 @@ export const usePet = (): UsePetProps => {
   const router = useRouter()
 
   const { data: pets } = useQuery('pets', async () => {
-    const response = await api.get<GetPetProps[]>('/pets')
+    const response = await api.get<GetAllPetProps>('/pets')
 
     return response.data
   })
@@ -61,8 +61,8 @@ export const usePet = (): UsePetProps => {
       return response.data
     },
     {
-      onSuccess: (data: GetPetProps) => {
-        router.push(`/pets/${data.id}`)
+      onSuccess: () => {
+        router.push(`/pets`)
         toast.success('Pet criado com sucesso')
       },
       onError: () => {
@@ -80,9 +80,8 @@ export const usePet = (): UsePetProps => {
       return response.data
     },
     {
-      onSuccess: (data: GetPetProps) => {
-        router.prefetch(`/pets/${data.id}`)
-        router.push(`/pets/${data.id}`)
+      onSuccess: () => {
+        router.push(`/pets`)
         toast.success('Pet editado com sucesso')
       },
       onError: () => {
@@ -92,8 +91,8 @@ export const usePet = (): UsePetProps => {
   )
 
   const { mutate: deletePet, isLoading: deletePetLoading } = useMutation(
-    async (data: DeletePetProps) => {
-      const response = await api.delete(`/pets/${data.id}`)
+    async (id: string) => {
+      const response = await api.delete(`/pets/${id}`)
 
       return response.data
     },

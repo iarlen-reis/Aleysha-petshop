@@ -81,7 +81,7 @@ const PetDetailPage = async ({ params }: ParamProps) => {
           <Link href={`/pets/editar/${pet.id}`}>
             <EditIcon className="cursor-pointer" />
           </Link>
-          <ButtonDeletePet id={pet.id} userId={session.user.id} />
+          <ButtonDeletePet id={pet.id} />
         </div>
       </div>
     </div>
