@@ -1,20 +1,26 @@
+'use client'
 import React from 'react'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 
 interface FilterScheduleProps {
-  status: string
+  pathname: string
 }
 
-const FilterSchedules = ({ status }: FilterScheduleProps) => {
+const FilterSchedules = ({ pathname }: FilterScheduleProps) => {
+  const searchParams = useSearchParams()
+
+  const status = searchParams.get('status')
+
   return (
     <div>
       <ul className="flex items-center gap-2 font-ruluko text-sm uppercase sm:text-base lg:text-lg">
         <li>
           <Link
-            href="/agendamentos?page=1"
+            href={`/${pathname}?page=1`}
             prefetch
             className={
-              status === undefined ? 'font-semibold text-background-rose' : ''
+              status === null ? 'font-semibold text-background-rose' : ''
             }
           >
             Todos
@@ -22,7 +28,7 @@ const FilterSchedules = ({ status }: FilterScheduleProps) => {
         </li>
         <li>
           <Link
-            href="/agendamentos?page=1&status=pending"
+            href={`/${pathname}?page=1&status=pending`}
             prefetch
             className={
               status === 'pending' ? 'font-semibold text-background-rose' : ''
@@ -33,7 +39,7 @@ const FilterSchedules = ({ status }: FilterScheduleProps) => {
         </li>
         <li>
           <Link
-            href="/agendamentos?page=1&status=completed"
+            href={`/${pathname}?page=1&status=completed`}
             prefetch
             className={
               status === 'completed' ? 'font-semibold text-background-rose' : ''
@@ -44,7 +50,7 @@ const FilterSchedules = ({ status }: FilterScheduleProps) => {
         </li>
         <li>
           <Link
-            href="/agendamentos?page=1&status=canceled"
+            href={`/${pathname}?page=1&status=canceled`}
             prefetch
             className={
               status === 'canceled' ? 'font-semibold text-background-rose' : ''

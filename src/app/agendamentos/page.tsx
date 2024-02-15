@@ -17,7 +17,7 @@ const SchedulePege = async ({ searchParams }: Params) => {
         <h1 className="font-semibold text-2xl">Agendamentos</h1>
         <p className="text-lg">Aqui estão todos seus angendamentos.</p>
       </div>
-      <FilterSchedules status={searchParams.status} />
+      <FilterSchedules pathname="agendamentos" />
       <MenuTools text="Novo agendamento" link="/agendamentos/adicionar" />
       <ShowScheduleCards
         status={searchParams.status}
