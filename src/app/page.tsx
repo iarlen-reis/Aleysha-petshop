@@ -1,11 +1,15 @@
-import { PawPrintIcon } from 'lucide-react'
-import { CardHome } from '@/components/app/Home/CardHome'
-import ManWithDogImage from '/public/images/home/man-dog.png'
-import GirlWithCatImage from '/public/images/home/woman-cat-one.png'
-import CoupleWithCatAndDogImage from '/public/images/home/couple.png'
-import GirlWithCatImageTwo from '/public/images/home/woman-cat-two.png'
+import { PawPrintIcon, User2Icon } from "lucide-react";
+import { CardHome } from "@/components/app/Home/CardHome";
+import ManWithDogImage from "/public/images/home/man-dog.png";
+import GirlWithCatImage from "/public/images/home/woman-cat-one.png";
+import CoupleWithCatAndDogImage from "/public/images/home/couple.png";
+import GirlWithCatImageTwo from "/public/images/home/woman-cat-two.png";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/authOptions";
 
-export default function Home() {
+export default async function Home() {
+  const session = await getServerSession(authOptions);
+
   return (
     <div className="flex flex-col gap-14 pb-16">
       <CardHome.Root>
@@ -16,11 +20,19 @@ export default function Home() {
             text="Onde amor e cuidado se encontram com patinhas felizes. Bem-vindo 
             ao nosso PetShop! 🐾"
           />
-          <CardHome.Button
-            text="Criar uma conta"
-            link="/login"
-            icon={PawPrintIcon}
-          />
+          {!session?.user ? (
+            <CardHome.Button
+              text="Faça login"
+              link="/login"
+              icon={PawPrintIcon}
+            />
+          ) : (
+            <CardHome.Button
+              text="Acessar minha conta"
+              link="/profile"
+              icon={User2Icon}
+            />
+          )}
         </CardHome.TextContainer>
         <CardHome.Image
           src={GirlWithCatImage}
@@ -46,7 +58,7 @@ export default function Home() {
             para momentos de diversão e até mesmo para cuidar da saúde!"
           />
           <CardHome.Button
-            text="Conferir seção de caẽs"
+            text="Seção de caẽs"
             link="/produtos?page=1&category=cachorros"
             icon={PawPrintIcon}
           />
@@ -67,7 +79,7 @@ export default function Home() {
             text="Ofereça a seus adoráveis gatos produtos de qualidade e conforto para cada dia, para horas de diversão e para cuidar do bem-estar de seus peludos!"
           />
           <CardHome.Button
-            text="Conferir seção de gatos"
+            text="Seção de gatos"
             link="/produtos?page=1&category=gatos"
             icon={PawPrintIcon}
           />
@@ -87,12 +99,12 @@ export default function Home() {
             text="Oferecemos produtos de qualidade e conforto para atender às necessidades diárias dos seus fiéis cães e adoráveis gatos."
           />
           <CardHome.Button
-            text="Conferir todas seções"
+            text="Todas seções"
             link="/produtos?page=1"
             icon={PawPrintIcon}
           />
         </CardHome.TextContainer>
       </CardHome.Root>
     </div>
-  )
+  );
 }

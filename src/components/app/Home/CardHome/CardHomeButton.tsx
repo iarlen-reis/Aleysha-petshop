@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import { LucideIcon } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
@@ -10,15 +11,14 @@ interface CardHomeButtonProps {
 
 const CardHomeButton = ({ text, link, icon: Icon }: CardHomeButtonProps) => {
   return (
-    <div className="max-w-[280px] w-full lg:max-w-[400px]">
+    <Button className="w-full max-w-[400px] h-[50px] md:h-[60px] lg:max-w-[400px]" asChild>
       <Link
         href={link}
-        className="py-3 px-4 flex items-center justify-center gap-3 bg-background-button text-white rounded-md sm:py-4 xl:text-xl transition-all duration-200 hover:opacity-80"
       >
         {text}
-        <Icon size={25} />
+        <Icon size={25} data-testid="icon" />
       </Link>
-    </div>
+    </Button>
   )
 }
 
