@@ -6,7 +6,7 @@ interface CardHomeTitleProps {
 
 const CardHomeTitle = ({ text }: CardHomeTitleProps) => {
   return (
-    <h1 className="font-amatic text-5xl font-bold uppercase xl:text-6xl">
+    <h1 className="font-amatic text-3xl sm:text-4xl md:text-5xl font-bold uppercase xl:text-6xl">
       {text}
     </h1>
   )

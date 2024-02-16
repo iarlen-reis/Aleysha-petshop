@@ -13,7 +13,7 @@ const CardHomeParagraph = ({
   return (
     <p
       className={twMerge(
-        'font-ruluko text-xl leading-relaxed sm:text-2xl max-w-[500px] lg:max-w-[620px] xl:text-2xl',
+        'font-ruluko text-lg leading-relaxed sm:text-xl max-w-[400px] lg:max-w-[620px] xl:text-2xl',
         aditionalStyles,
       )}
     >
