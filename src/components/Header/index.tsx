@@ -1,32 +1,53 @@
-import React from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import LogoImage from '/public/images/logo.png'
-import HeaderNavigation from '@/components/HeaderNavigation'
+"use client";
+import HeaderNavigation from "./HeaderNavigation";
+import HeaderLogo from "./HeaderLogo";
+import HeaderRoot from "./HeaderRoot";
+
+import LogoImage from "/public/images/logo.png";
+import HeaderNavigationLi from "./HeaderNavigationLi";
+import HeaderNavigationIconContainer from "./HeaderNavigationIconContainer";
+import HeaderNavigationIcon from "./HeaderNavigationIcon";
+import { ClipboardListIcon, ShoppingCartIcon } from "lucide-react";
+import { useState } from "react";
+import HeaderLogoutButton from "./HeaderLogoutButton";
+import HeaderNeedAuth from "./HeaderNeedAuth";
+import { useCart } from "@/context/CartContext";
 
 const Header = () => {
-  const pageLinks = [
-    { name: 'MEUS PETS', href: '/' },
-    { name: 'PRODUTOS', href: '/produtos?page=1' },
-    { name: 'DASHBOARD', href: '/dashboard' },
-  ]
+  const [isOpen, setIsOpen] = useState(false);
+  const { cartLength } = useCart();
+
+  const handleMenuMobile = () => {
+    setIsOpen(!isOpen);
+  };
 
   return (
-    <header className="w-full py-2 px-2 fixed top-0 left-0 bg-background z-10">
-      <div className="container w-full flex flex-col md:flex-row md:items-center md:justify-between mx-auto">
-        <Link href="/" className="w-fit flex-1">
-          <Image
-            src={LogoImage}
-            alt="Logo do Aleysha Petshop"
-            width={200}
-            height={200}
-            className="w-32 h-12 md:w-40 md:h-14"
-          />
-        </Link>
-        <HeaderNavigation pagesLinks={pageLinks} />
-      </div>
-    </header>
-  )
-}
+    <HeaderRoot>
+      <HeaderLogo logoImage={LogoImage} alt="Logo" />
+      <HeaderNavigation isOpen={isOpen} handleMenuMobile={handleMenuMobile}>
+        <HeaderNeedAuth>
+          <HeaderNavigationLi name="Meus pets" link="/pets" />
+          <HeaderNavigationLi name="Agendamentos" link="/agendamentos" />
+          <HeaderNavigationLi name="Dashboard" link="/dashboard" />
+        </HeaderNeedAuth>
 
-export default Header
+        <HeaderNavigationLi name="Todos produtos" link="/produtos?page=1" />
+
+        <HeaderNavigationIconContainer>
+          <HeaderNavigationIcon
+            Icon={ShoppingCartIcon}
+            link="/carrinho"
+            marker={cartLength > 0 ? cartLength : undefined}
+          />
+
+          <HeaderNeedAuth>
+          <HeaderNavigationIcon Icon={ClipboardListIcon} link="/pedidos" />
+            <HeaderLogoutButton />
+          </HeaderNeedAuth>
+        </HeaderNavigationIconContainer>
+      </HeaderNavigation>
+    </HeaderRoot>
+  );
+};
+
+export default Header;
