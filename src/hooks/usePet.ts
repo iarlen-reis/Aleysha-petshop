@@ -28,7 +28,7 @@ interface UpdatePetProps extends PetProps {
 
 interface UsePetProps {
   pets: GetAllPetProps | undefined
-  createPet: (data: PetProps) => void
+  createPet: (data: Omit<PetProps, 'id'>) => void
   createPetLoading: boolean
   updatePet: (data: UpdatePetProps) => void
   updatePetLoading: boolean
@@ -46,7 +46,7 @@ export const usePet = (): UsePetProps => {
   })
 
   const { mutate: createPet, isLoading: createPetLoading } = useMutation(
-    async (data: PetProps) => {
+    async (data: Omit<PetProps, 'id'>) => {
       const response = await api.post(
         '/pets',
         {
