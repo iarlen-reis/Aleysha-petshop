@@ -15,7 +15,7 @@ const Footer = () => {
   ]
   return (
     <footer className="w-full px-2 py-4">
-      <div className="container mx-auto w-full flex items-center justify-between">
+      <div className="container px-2 mx-auto w-full flex items-center justify-between">
         <ul className="flex flex-col gap-3 font-ruluko md:text-lg">
           {footerLinks.map((link) => (
             <li key={link.text}>
@@ -31,7 +31,7 @@ const Footer = () => {
           ))}
         </ul>
         <p className="flex gap-2 items-center font-ruluko md:text-lg">
-          <CopyrightIcon size={16} /> 2023 Aleysha Petshop
+          <CopyrightIcon data-testid="icon" size={16} /> 2023 Aleysha Petshop
         </p>
       </div>
     </footer>
