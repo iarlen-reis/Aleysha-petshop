@@ -55,7 +55,7 @@ const Dropzone = ({ setFile, file, loading }: DropzoneProps) => {
           {...getRootProps()}
           className="w-full text-center bg-background-input rounded-md border border-black/20 p-3"
         >
-          <input {...getInputProps()} accept="image/*" />
+          <input {...getInputProps()} accept="image/*" data-testid="dropzone-input" />
           {isDragActive ? (
             <p>a</p>
           ) : (

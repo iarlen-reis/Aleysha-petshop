@@ -42,6 +42,7 @@ const TextAreaInput = ({
       <textarea
         ref={ref}
         {...inputProps}
+        data-testid={name}
         {...rest}
         cols={10}
         rows={5}

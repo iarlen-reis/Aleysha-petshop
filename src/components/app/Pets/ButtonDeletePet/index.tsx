@@ -15,8 +15,8 @@ const ButtonDeletePet = ({ id }: ButtonDeletePetProps) => {
   }
 
   return (
-    <button onClick={handleDeletePet} type="button">
-      <Trash2Icon className="cursor-pointer text-red-500" />
+    <button onClick={handleDeletePet} type="button" data-testid="delete-pet-button">
+      <Trash2Icon className="cursor-pointer text-red-500" data-testid="icon" />
     </button>
   )
 }

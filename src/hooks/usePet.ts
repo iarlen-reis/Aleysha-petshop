@@ -2,7 +2,7 @@
 import { api } from '@/services/api'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/navigation'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 
 interface PetProps {
   id: string
@@ -28,6 +28,7 @@ interface UpdatePetProps extends PetProps {
 
 interface UsePetProps {
   pets: GetAllPetProps | undefined
+  petsLoading: boolean
   createPet: (data: Omit<PetProps, 'id'>) => void
   createPetLoading: boolean
   updatePet: (data: UpdatePetProps) => void
@@ -38,11 +39,14 @@ interface UsePetProps {
 
 export const usePet = (): UsePetProps => {
   const router = useRouter()
+  const queryClient = useQueryClient()
 
-  const { data: pets } = useQuery('pets', async () => {
+  const { data: pets, isLoading: petsLoading } = useQuery('pets', async () => {
     const response = await api.get<GetAllPetProps>('/pets')
 
     return response.data
+  }, {
+    staleTime: 1000 * 60 * 10 // 10 minutes
   })
 
   const { mutate: createPet, isLoading: createPetLoading } = useMutation(
@@ -61,7 +65,18 @@ export const usePet = (): UsePetProps => {
       return response.data
     },
     {
-      onSuccess: () => {
+      onSuccess: (data: PetProps) => {
+        const allPets = queryClient.getQueryData<GetAllPetProps>('pets')
+
+        if (allPets) {
+         const newPets = [...allPets.pets, data]
+
+         queryClient.setQueryData('pets', {
+           ...allPets,
+           pets: newPets,
+         })
+        }
+
         router.push(`/pets`)
         toast.success('Pet criado com sucesso')
       },
@@ -80,7 +95,28 @@ export const usePet = (): UsePetProps => {
       return response.data
     },
     {
-      onSuccess: () => {
+      onSuccess: (data: PetProps) => {
+        const allPets = queryClient.getQueryData<GetAllPetProps>('pets')
+        const pet = queryClient.getQueryData<PetProps>(['pet', data.id])
+
+        if (allPets) {
+          const newPets = allPets.pets.map((pet) => {
+            if (pet.id === data.id) {
+              return data
+            }
+            return pet
+          })
+
+          queryClient.setQueryData('pets', {
+            ...allPets,
+            pets: newPets,
+          })
+        }
+
+        if (pet) {
+          queryClient.setQueryData(['pet', data.id], data)
+        }
+
         router.push(`/pets`)
         toast.success('Pet editado com sucesso')
       },
@@ -97,8 +133,18 @@ export const usePet = (): UsePetProps => {
       return response.data
     },
     {
-      onSuccess: () => {
-        router.prefetch('/pets')
+      onSuccess: (data: PetProps) => {
+        const allPets = queryClient.getQueryData<GetAllPetProps>('pets')
+
+        if (allPets) {
+          const newPets = allPets.pets.filter((pet) => pet.id !== data.id)
+
+          queryClient.setQueryData('pets', {
+            ...allPets,
+            pets: newPets,
+          })
+        }
+
         router.push('/pets')
         toast.success('Pet deletado com sucesso')
       },
@@ -107,6 +153,7 @@ export const usePet = (): UsePetProps => {
 
   return {
     pets,
+    petsLoading,
     createPet,
     createPetLoading,
     updatePet,

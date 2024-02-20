@@ -2,6 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { EditIcon, SearchIcon } from 'lucide-react'
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card'
 
 interface PetCardProps {
   id: string
@@ -13,40 +15,33 @@ interface PetCardProps {
 
 const PetCard = ({ id, name, age, gender, image }: PetCardProps) => {
   return (
-    <li className="w-full flex items-center justify-between gap-3 p-2 rounded-lg bg-background-input">
-      <div className="flex items-center gap-3">
-        <Image
-          src={image}
-          alt={`Imagem do pet ${name}`}
-          width={250}
-          height={250}
-          className="h-16 w-16 rounded-[50%] object-cover"
-        />
-        <div className="flex flex-col items-start">
-          <span className="font-ruluko font-semibold text-xl capitalize">
-            {name}
-          </span>
-          <div className="flex items-center gap-2 font-ruluko font-semibold capitalize">
-            <span>{age > 1 ? `${age} anos` : `${age} ano`} -</span>
-            <span>{gender === 'M' ? 'macho' : 'fêmea'}</span>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center gap-4">
-        <Link
-          href={`/pets/editar/${id}`}
-          className="hover:opacity-80 transition-all duration-200"
-        >
+    <Card className="max-w-[300px] w-full mx-auto">
+    <CardContent className='w-full'>
+      <Image src={image} alt={name} width={350} height={300} className='w-full h-[300px] object-cover' />
+    </CardContent>
+    <CardHeader>
+      <CardTitle>{name}</CardTitle>
+      <CardDescription>
+        {age > 1 ? `${age} anos` : `${age} ano`} - {gender === 'M' ? 'macho' : 'femea'}
+      </CardDescription>
+    </CardHeader>
+    <CardFooter className='flex justify-between'>
+      <Button asChild>
+        <Link 
+        data-testid="edit-pet-link"
+        href={`/pets/editar/${id}`}>
           <EditIcon size={25} strokeWidth={2} />
         </Link>
-        <Link
-          href={`/pets/${id}`}
-          className="hover:opacity-80 transition-all duration-200"
-        >
+      </Button>
+      <Button variant='destructive' asChild>
+        <Link 
+        data-testid="search-pet-link"
+        href={`/pets/${id}`}>
           <SearchIcon size={25} strokeWidth={2} />
         </Link>
-      </div>
-    </li>
+      </Button>
+    </CardFooter>
+  </Card>
   )
 }
 

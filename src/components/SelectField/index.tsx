@@ -44,6 +44,7 @@ const SelectField = ({
       <select
         ref={ref}
         {...inputProps}
+        data-testid={name}
         {...rest}
         autoComplete="off"
         className={twMerge(

@@ -1,8 +1,8 @@
 import React from 'react'
 
-const loading = () => {
+const PetEditLoading = async () => {
   return (
-    <div className="max-w-[600px] w-full flex flex-col gap-4 mx-auto">
+    <div className="max-w-[600px] min-screen h-full w-full flex flex-col gap-4 mx-auto">
       <div className="w-fit flex items-center gap-2 mt-4">
         <div className="w-[100px] h-5 bg-zinc-400 rounded animate-pulse"></div>
         <div className="w-[15px] h-4 bg-zinc-400 rounded animate-pulse"></div>
@@ -27,4 +27,4 @@ const loading = () => {
   )
 }
 
-export default loading
+export default PetEditLoading

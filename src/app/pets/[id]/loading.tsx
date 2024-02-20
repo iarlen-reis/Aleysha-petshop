@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Loading = () => {
+const PetDetailLoading = () => {
   return (
     <div className="min-h-screen flex flex-col gap-6">
       <div className="relative flex flex-col gap-4 max-w-[500px] w-full mx-auto">
@@ -27,4 +27,4 @@ const Loading = () => {
   )
 }
 
-export default Loading
+export default PetDetailLoading
