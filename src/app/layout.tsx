@@ -41,7 +41,7 @@ export default function RootLayout({
   return (
     <html lang="pt-BR">
       <body
-        className={`${ruluko.variable} ${amaticSc.variable} ${crimsonText.variable} bg-background`}
+        className={`${ruluko.variable} ${amaticSc.variable} ${crimsonText.variable} bg-background min-h-screen`}
       >
         <Providers>
           <Header />
