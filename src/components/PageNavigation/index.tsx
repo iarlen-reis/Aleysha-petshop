@@ -11,7 +11,9 @@ const PageNavigation = ({ title, backLink, backText }: PageNavigationProps) => {
   return (
     <ul className="flex items-center gap-1 font-ruluko capitalize lg:mt-3">
       <li className="text-lg lg:text-xl hover:opacity-80 transition-all duration-200">
-        <Link href={backLink} prefetch={true}>
+        <Link 
+        data-testid="back-link"
+        href={backLink} >
           {backText}
         </Link>
       </li>

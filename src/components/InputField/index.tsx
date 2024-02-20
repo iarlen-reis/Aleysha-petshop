@@ -44,6 +44,7 @@ const InputField = ({
         type={type}
         ref={ref}
         {...inputProps}
+        data-testid={name}
         {...rest}
         autoComplete="off"
         className={twMerge(
