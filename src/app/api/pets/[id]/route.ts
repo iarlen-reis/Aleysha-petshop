@@ -139,7 +139,7 @@ export async function DELETE(request: NextRequest, { params }: ParamProps) {
       },
     })
 
-    return NextResponse.json({ message: 'Pet deleted' }, { status: 200 })
+    return NextResponse.json(pet, { status: 200 })
   } catch (error) {
     console.log(error)
     return NextResponse.json({ message: error }, { status: 500 })
