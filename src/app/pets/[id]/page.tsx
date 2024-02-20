@@ -1,11 +1,13 @@
+'use client'
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { headers } from 'next/headers'
 import { EditIcon } from 'lucide-react'
-import { useUser } from '@/hooks/useUser'
 import PageNavigation from '@/components/PageNavigation'
 import ButtonDeletePet from '@/components/app/Pets/ButtonDeletePet'
+import { useQuery } from 'react-query'
+import { api } from '@/services/api'
+import PetDetailLoading from './loading'
 
 export const dynamic = 'force-dynamic'
 
@@ -26,17 +28,17 @@ interface PetDetailProps {
 }
 
 const PetDetailPage = async ({ params }: ParamProps) => {
-  const { session } = await useUser()
+  const {data: pet, isLoading} = useQuery(['pet', params.id], async () => {
+    const response = await api.get<PetDetailProps>(`/pets/${params.id}`)
 
-  if (!session) {
-    return null
-  }
-
-  const response = await fetch(`http://localhost:3000/api/pets/${params.id}`, {
-    headers: headers(),
+    return response.data
+  }, {
+    staleTime: 1000 * 60 * 10, // 10 minutes
   })
 
-  const pet: PetDetailProps = await response.json()
+  if (isLoading || !pet) {
+    return <PetDetailLoading />
+  }
 
   return (
     <div className="min-h-screen flex flex-col gap-6">
