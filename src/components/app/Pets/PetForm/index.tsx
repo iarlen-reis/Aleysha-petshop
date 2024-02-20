@@ -26,7 +26,7 @@ const PetForm = () => {
     return
   }
 
-  const handleAddPet = async (data: useFormProps) => {
+  const handleAddPet = (data: useFormProps) => {
     if (!file) {
       return toast.error('Insira uma imagem para o pet.')
     }
@@ -54,6 +54,7 @@ const PetForm = () => {
   return (
     <FormProvider {...methods}>
       <form
+        data-testid="create-pet-form"
         onSubmit={methods.handleSubmit(handleAddPet)}
         className="w-full flex flex-col gap-3"
       >
@@ -98,6 +99,7 @@ const PetForm = () => {
             value="Adicionar"
             className="max-w-[280px] w-full py-2 px-4 font-crimson uppercase md:px-6 md:text-lg text-white bg-background-rose rounded-md cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed hover:opacity-80 transition-all duration-200"
             disabled={createPetLoading}
+            data-testid="create-pet-button"
           />
         </div>
       </form>

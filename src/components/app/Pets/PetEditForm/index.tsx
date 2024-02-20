@@ -36,7 +36,7 @@ const PetEditForm = (pet: PetProps) => {
     return
   }
 
-  const handleEditPet = async (data: useFormProps) => {
+  const handleEditPet = (data: useFormProps) => {
     const petUpdated = {
       ...data,
       id: pet.id,
@@ -61,11 +61,12 @@ const PetEditForm = (pet: PetProps) => {
   return (
     <FormProvider {...methods}>
       <form
+        data-testid="edit-pet-form"
         onSubmit={methods.handleSubmit(handleEditPet)}
         className="max-w-[600px] w-full mx-auto flex flex-col gap-3"
       >
         <div className="w-full flex items-end justify-end">
-          <ButtonDeletePet id={pet.id} />
+          <ButtonDeletePet id={pet.id} data-testid="delete-pet-button" />
         </div>
         <Image
           src={pet.image}
@@ -81,6 +82,7 @@ const PetEditForm = (pet: PetProps) => {
             type="text"
             defaultValue={pet.name}
             disabled={updatePetLoading}
+            data-testid="pet-name"
           />
           <InputField
             name="age"
@@ -89,6 +91,7 @@ const PetEditForm = (pet: PetProps) => {
             min={0}
             defaultValue={pet.age}
             disabled={updatePetLoading}
+            data-testid="pet-age"
           />
         </div>
         <div className="flex flex-col gap-3 md:flex-row md:gap-4">
@@ -98,6 +101,7 @@ const PetEditForm = (pet: PetProps) => {
             type="text"
             defaultValue={pet.race}
             disabled={updatePetLoading}
+            data-testid="pet-race"
           />
           <SelectField
             options={petGenderOptions}
@@ -105,6 +109,7 @@ const PetEditForm = (pet: PetProps) => {
             label="Gênero"
             defaultValue={pet.gender}
             disabled={updatePetLoading}
+            data-testid="pet-gender"
           />
         </div>
         <TextAreaInput
@@ -112,6 +117,7 @@ const PetEditForm = (pet: PetProps) => {
           label="Observações"
           defaultValue={pet.observations}
           disabled={updatePetLoading}
+          data-testid="pet-observations"
         />
         <div className="w-full flex items-center justify-end">
           <input
@@ -119,6 +125,7 @@ const PetEditForm = (pet: PetProps) => {
             value="Editar"
             className="max-w-[280px] w-full py-2 px-4 font-crimson uppercase md:px-6 md:text-lg text-white bg-background-rose rounded-md cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed hover:opacity-80 transition-all duration-200"
             disabled={updatePetLoading}
+            data-testid="edit-pet-button"
           />
         </div>
       </form>
