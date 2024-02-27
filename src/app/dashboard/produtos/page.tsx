@@ -1,9 +1,9 @@
 import React from 'react'
-import { useProducts } from '@/hooks/useProducts'
+import prisma from '@/utils/prisma'
 import { Pagination } from '@/components/Pagination'
 import { ProductCard } from '@/components/ProductCard'
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import PageNavigation from '@/components/PageNavigation'
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
 interface Params {
   searchParams: {
@@ -12,7 +12,22 @@ interface Params {
 }
 
 const DashboardProducts = async ({ searchParams }: Params) => {
-  const products = await useProducts(searchParams.page)
+  const PRODUCT_PER_PAGE = 8
+  const page = Number(searchParams.page) || 1
+
+  const allProducts = await prisma.product.count()
+
+  const maxPage = Math.ceil(allProducts / PRODUCT_PER_PAGE)
+  const existNextPage = page < maxPage
+  const existPreviousPage = page > 1
+
+  const products = await prisma.product.findMany({
+    take: PRODUCT_PER_PAGE,
+    skip: (page - 1) * PRODUCT_PER_PAGE,
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
   return (
     <div className="flex flex-col gap-10 min-h-screen pb-12">
       <PageNavigation
@@ -22,7 +37,7 @@ const DashboardProducts = async ({ searchParams }: Params) => {
       />
       <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:justify-between">
         {products &&
-          products.products.map((product) => (
+          products.map((product) => (
             <ProductCard.Root key={product.id}>
               <ProductCard.Image image={product.image} alt={product.name} />
               <ProductCard.InformationContainer>
@@ -33,8 +48,8 @@ const DashboardProducts = async ({ searchParams }: Params) => {
                 />
               </ProductCard.InformationContainer>
               <ProductCard.PriceContainer>
-                <ProductCard.Price price={product.price} />
-                <ProductCard.Portion portion={product.price} />
+                <ProductCard.Price price={Number(product.price)} />
+                <ProductCard.Portion portion={Number(product.price)} />
               </ProductCard.PriceContainer>
               <ProductCard.Button
                 text="Editar"
@@ -44,24 +59,22 @@ const DashboardProducts = async ({ searchParams }: Params) => {
           ))}
       </div>
       <Pagination.Root>
-        {products && products.existPreviousPage && (
+        {existPreviousPage && (
           <Pagination.LinkContainer>
             <Pagination.Link
-              url={`/dashboard/produtos?page=${products.page - 1}`}
+              url={`/dashboard/produtos?page=${page - 1}`}
             >
               <Pagination.Icon icon={ChevronLeftIcon} />
             </Pagination.Link>
           </Pagination.LinkContainer>
         )}
-        {products.existPreviousPage || products.existNextPage ? (
-          <Pagination.Indicator page={products.page} />
-        ) : (
-          <></>
+        {maxPage > 1 && (
+          <Pagination.Indicator page={page} />
         )}
-        {products && products.existNextPage && (
+        {existNextPage && (
           <Pagination.LinkContainer>
             <Pagination.Link
-              url={`/dashboard/produtos?page=${products.page + 1}`}
+              url={`/dashboard/produtos?page=${page + 1}`}
             >
               <Pagination.Icon icon={ChevronRightIcon} />
             </Pagination.Link>

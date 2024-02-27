@@ -1,7 +1,7 @@
 import React from 'react'
-import { useProducts } from '@/hooks/useProducts'
-import { ProductCard } from '@/components/ProductCard'
+import prisma from '@/utils/prisma'
 import { Pagination } from '@/components/Pagination'
+import { ProductCard } from '@/components/ProductCard'
 import PageNavigation from '@/components/PageNavigation'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 
@@ -13,7 +13,30 @@ interface Params {
 }
 
 const ProductsPage = async ({ searchParams }: Params) => {
-  const products = await useProducts(searchParams.page, searchParams.category)
+  const productsCount = await prisma.product.count({
+    where: {
+      type: {
+        contains: searchParams.category,
+        mode: 'insensitive',
+      },
+    },
+  })
+
+  const maxPage = Math.ceil(productsCount / 8)
+  const existNextPage = Number(searchParams.page) < maxPage
+  const existPreviousPage = Number(searchParams.page) > 1
+  const page = Number(searchParams.page) || 1
+
+  const products = await prisma.product.findMany({
+    where: {
+      type: {
+        contains: searchParams.category,
+        mode: 'insensitive',
+      },
+    },
+    take: 8,
+    skip: (page - 1) * 8,
+  })
 
   return (
     <div className="min-h-screen flex flex-col gap-10 pb-12">
@@ -34,7 +57,7 @@ const ProductsPage = async ({ searchParams }: Params) => {
       </div>
       <div className="grid gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:justify-between">
         {products &&
-          products.products.map((product) => (
+          products.map((product) => (
             <ProductCard.Root key={product.id}>
               <ProductCard.Image image={product.image} alt={product.name} />
               <ProductCard.InformationContainer>
@@ -45,46 +68,44 @@ const ProductsPage = async ({ searchParams }: Params) => {
                 />
               </ProductCard.InformationContainer>
               <ProductCard.PriceContainer>
-                <ProductCard.Price price={product.price} />
-                <ProductCard.Portion portion={product.price} />
+                <ProductCard.Price price={Number(product.price)} />
+                <ProductCard.Portion portion={Number(product.price)} />
               </ProductCard.PriceContainer>
               <ProductCard.Button
                 text="Detalhes"
-                link={`/produto/${product.id}`}
+                link={`/produtos/${product.id}`}
               />
             </ProductCard.Root>
           ))}
       </div>
       <Pagination.Root>
-        {products && products.existPreviousPage && (
+        {existPreviousPage && (
           <Pagination.LinkContainer>
             <Pagination.Link
               url={`${
                 searchParams.category
-                  ? `/produtos?page=${products.page - 1}&category=${
+                  ? `/produtos?page=${page - 1}&category=${
                       searchParams.category
                     }`
-                  : `/produtos?page=${products.page - 1}`
+                  : `/produtos?page=${page - 1}`
               }`}
             >
               <Pagination.Icon icon={ChevronLeftIcon} />
             </Pagination.Link>
           </Pagination.LinkContainer>
         )}
-        {products.existPreviousPage || products.existNextPage ? (
-          <Pagination.Indicator page={products.page} />
-        ) : (
-          <></>
+        {maxPage > 1 && (
+          <Pagination.Indicator page={page} />
         )}
-        {products && products.existNextPage && (
+        {existNextPage && (
           <Pagination.LinkContainer>
             <Pagination.Link
               url={`${
                 searchParams.category
-                  ? `/produtos?page=${products.page + 1}&category=${
+                  ? `/produtos?page=${page + 1}&category=${
                       searchParams.category
                     }`
-                  : `/produtos?page=${products.page + 1}`
+                  : `/produtos?page=${page + 1}`
               }`}
             >
               <Pagination.Icon icon={ChevronRightIcon} />
