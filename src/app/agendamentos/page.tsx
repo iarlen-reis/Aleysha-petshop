@@ -1,13 +1,13 @@
-import React from 'react'
-import MenuTools from '@/components/MenuTools'
-import FilterSchedules from '@/components/app/Schedules/FilterSchedules'
-import ShowScheduleCards from '@/components/app/Schedules/ShowScheduleCards'
+import React from "react";
+import { MenuTools } from "@/components/MenuTools";
+import FilterSchedules from "@/components/app/Schedules/FilterSchedules";
+import ShowScheduleCards from "@/components/app/Schedules/ShowScheduleCards";
 
 interface Params {
   searchParams: {
-    page: string
-    status: string
-  }
+    page: string;
+    status: string;
+  };
 }
 
 const SchedulePege = async ({ searchParams }: Params) => {
@@ -18,13 +18,18 @@ const SchedulePege = async ({ searchParams }: Params) => {
         <p className="text-lg">Aqui estão todos seus angendamentos.</p>
       </div>
       <FilterSchedules pathname="agendamentos" />
-      <MenuTools text="Novo agendamento" link="/agendamentos/adicionar" />
+      <MenuTools.Root>
+        <MenuTools.Button
+          text="Novo agendamento"
+          href="/agendamentos/adicionar"
+        />
+      </MenuTools.Root>
       <ShowScheduleCards
         status={searchParams.status}
         page={searchParams.page}
       />
     </div>
-  )
-}
+  );
+};
 
-export default SchedulePege
+export default SchedulePege;
