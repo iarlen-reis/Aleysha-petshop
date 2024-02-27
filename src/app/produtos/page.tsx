@@ -73,7 +73,7 @@ const ProductsPage = async ({ searchParams }: Params) => {
               </ProductCard.PriceContainer>
               <ProductCard.Button
                 text="Detalhes"
-                link={`/produto/${product.id}`}
+                link={`/produtos/${product.id}`}
               />
             </ProductCard.Root>
           ))}
