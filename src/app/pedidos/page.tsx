@@ -1,42 +1,31 @@
 import React from 'react'
 import Image from 'next/image'
-import { headers } from 'next/headers'
+import prisma from '@/utils/prisma'
+import { getServerSession } from 'next-auth'
+import { authOptions } from '@/utils/authOptions'
 import OrderCard from '@/components/app/Order/OrderCard'
 import PageNavigation from '@/components/PageNavigation'
 import NoOrderImage from '/public/images/order/no-order.png'
 
-export const revalidate = 60
-
-interface ProductProps {
-  id: string
-  name: string
-  type: string
-  price: number
-  image: string
-}
-
-interface OrderProductsProps {
-  id: string
-  quantity: number
-  productId: string
-  product: ProductProps
-}
-
-interface OrderProps {
-  id: string
-  total: number
-  createdAt: Date
-  orderProducts: OrderProductsProps[]
-}
 
 const OrderPage = async () => {
-  const response = await fetch(`http://localhost:3000/api/order`, {
-    headers: new Headers(headers()),
-    method: 'GET',
-    cache: 'no-store',
-  })
+  const session = await getServerSession(authOptions)
 
-  const orders: OrderProps[] = await response.json()
+  const orders = await prisma.order.findMany({
+    where: {
+      userId: session?.user.id,
+    },
+    include: {
+      orderProducts: {
+        include: {
+          product: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  })
 
   return (
     <div className="min-h-screen flex flex-col gap-6 pb-12">
