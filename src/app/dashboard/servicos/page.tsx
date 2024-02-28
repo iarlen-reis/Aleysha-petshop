@@ -1,7 +1,7 @@
-import React from 'react'
-import MenuTools from '@/components/MenuTools'
-import PageNavigation from '@/components/PageNavigation'
-import ShowServiceCards from '@/components/app/Services/ShowServiceCards'
+import React from "react";
+import { MenuTools } from "@/components/MenuTools";
+import PageNavigation from "@/components/PageNavigation";
+import ShowServiceCards from "@/components/app/Services/ShowServiceCards";
 
 const DashboardServices = async () => {
   return (
@@ -11,10 +11,15 @@ const DashboardServices = async () => {
         backText="Dashboard"
         backLink="/dashboard"
       />
-      <MenuTools link="/dashboard/servicos/adicionar" text="Novo Serviço" />
+      <MenuTools.Root>
+        <MenuTools.Button
+          text="Novo Serviços"
+          href="/dashboard/servicos/adicionar"
+        />
+      </MenuTools.Root>
       <ShowServiceCards />
     </div>
-  )
-}
+  );
+};
 
-export default DashboardServices
+export default DashboardServices;

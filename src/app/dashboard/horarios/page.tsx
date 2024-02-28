@@ -1,9 +1,9 @@
 import React from 'react'
-import { headers } from 'next/headers'
-import ScheduleReserved from '@/components/app/Schedules/ScheduleReserved'
+import prisma from '@/utils/prisma'
 import { Pagination } from '@/components/Pagination'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import FilterSchedules from '@/components/app/Schedules/FilterSchedules'
+import ScheduleReserved from '@/components/app/Schedules/ScheduleReserved'
 
 interface Params {
   searchParams: {
@@ -12,43 +12,60 @@ interface Params {
   }
 }
 
-interface ScheduleProps {
-  id: string
-  status: string
-  availableDate: {
-    date: Date
-  }
-  pet: {
-    name: string
-  }
-  service: {
-    name: string
-  }
-  timeSlot: {
-    timeSlot: string
-    reserved: boolean
-  }
-}
-
-interface SchedulesProps {
-  page: number
-  maxPage: number
-  existNextPage: boolean
-  existPreviousPage: boolean
-  schedules: ScheduleProps[]
-}
-
 const HoraryPage = async ({ searchParams }: Params) => {
-  const response = await fetch(
-    `http://localhost:3000/api/dashboard/schedules?page=${searchParams.page}${
-      searchParams.status ? `&status=${searchParams.status}` : ''
-    }`,
-    {
-      headers: headers(),
-    },
-  )
+  const page = Number(searchParams.page) || 1
 
-  const horaries: SchedulesProps = await response.json()
+  const allHoraries = await prisma.schedule.count({
+    where: {
+      status: {
+        contains: searchParams.status,
+        mode: 'insensitive',
+      }
+    }
+  })
+
+  const maxPage = Math.ceil(allHoraries / 4)
+  const existNextPage = page < maxPage
+  const existPreviousPage = page > 1
+
+  const horaries =  await prisma.schedule.findMany({
+      where: {
+        status: {
+          contains: searchParams.status,
+          mode: 'insensitive',
+        },
+      },
+      include: {
+        availableDate: {
+          select: {
+            date: true,
+          },
+        },
+        pet: {
+          select: {
+            name: true,
+          },
+        },
+        service: {
+          select: {
+            name: true,
+          },
+        },
+        timeSlot: {
+          select: {
+            timeSlot: true,
+            reserved: true,
+          },
+        },
+      },
+      take: 4,
+      skip: (page - 1) * 4,
+      orderBy: {
+        availableDate: {
+          date: 'asc',
+        },
+      },
+    })
 
   return (
     <div className="min-h-screen w-full flex flex-col gap-6">
@@ -61,14 +78,14 @@ const HoraryPage = async ({ searchParams }: Params) => {
         </p>
       </div>
       <FilterSchedules pathname="dashboard/horarios" />
-      {horaries.schedules.map((schedule) => (
+      {horaries.map((schedule) => (
         <ScheduleReserved key={schedule.id} {...schedule} />
       ))}
       <Pagination.Root>
-        {horaries && horaries.existPreviousPage && (
+        {existPreviousPage && (
           <Pagination.LinkContainer>
             <Pagination.Link
-              url={`/dashboard/horarios?page=${horaries.page - 1}${
+              url={`/dashboard/horarios?page=${page - 1}${
                 searchParams.status ? `&status=${searchParams.status}` : ''
               }`}
             >
@@ -76,11 +93,11 @@ const HoraryPage = async ({ searchParams }: Params) => {
             </Pagination.Link>
           </Pagination.LinkContainer>
         )}
-        {horaries.maxPage > 1 && <Pagination.Indicator page={horaries.page} />}
-        {horaries && horaries.existNextPage && (
+        {maxPage > 1 && <Pagination.Indicator page={page} />}
+        {existNextPage && (
           <Pagination.LinkContainer>
             <Pagination.Link
-              url={`/dashboard/horarios?page=${horaries.page + 1}${
+              url={`/dashboard/horarios?page=${page + 1}${
                 searchParams.status ? `&status=${searchParams.status}` : ''
               }`}
             >
