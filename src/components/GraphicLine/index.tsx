@@ -30,6 +30,9 @@ const GraphicLine = ({data, name}: GraphicLineProps) => {
       axisBorder: {
         show: false,
       },
+      tooltip: {
+        enabled: false
+      }
     },
     yaxis: {
       show: false,
@@ -40,19 +43,17 @@ const GraphicLine = ({data, name}: GraphicLineProps) => {
     legend: {
       show: false,
     },
-    dataLabels: {
-      enabled: false,
-    },
     stroke: {
       curve: "smooth",
     },
     tooltip: {
+      shared: true,
       hideEmptySeries: true,
     }
   };
 
   return (
-    <div className="h-[110px] w-[150px] lg:w-[300px]">
+    <div className="h-[70px] w-[150px] lg:w-[300px]">
       <Chart
       options={options}
       series={options.series}
