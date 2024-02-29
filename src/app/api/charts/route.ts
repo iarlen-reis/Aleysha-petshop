@@ -4,15 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(request: NextRequest) {
   try {
     const currentYear = new Date().getFullYear();
-    const page = Number(request.nextUrl.searchParams.get("page")) || 1;
-    
-    
-    const CHARTS_PER_PAGE = 5;
-    const totalProducts = await prisma.product.count();
-
-    const maxPage = Math.ceil(totalProducts / CHARTS_PER_PAGE);
-    const existNextPage = page < maxPage;
-    const existPreviousPage = page > 1;
 
     const yearlyOrderProducts = await prisma.oderProduct.findMany({
       where: {
@@ -28,9 +19,7 @@ export async function GET(request: NextRequest) {
       },
       orderBy: {
         createdAt: "desc",
-      },
-      take: CHARTS_PER_PAGE,
-      skip: (page - 1) * CHARTS_PER_PAGE,
+      }
     });
 
     const monthlyOrderProductsMap = new Map();
@@ -81,7 +70,7 @@ export async function GET(request: NextRequest) {
     }));
 
     return NextResponse.json(
-      { maxPage, existNextPage, existPreviousPage, charts },
+      { charts },
       { status: 200 }
     );
   } catch (error) {
