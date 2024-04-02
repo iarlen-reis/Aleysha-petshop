@@ -1,5 +1,8 @@
 "use client";
-import Chart from "react-apexcharts";
+
+import dynamic from "next/dynamic";
+const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
+
 import { ApexOptions } from "apexcharts";
 
 interface GraphicLineProps {
@@ -52,15 +55,16 @@ const GraphicLine = ({data, name}: GraphicLineProps) => {
     }
   };
 
+
   return (
     <div className="h-[70px] w-[150px] lg:w-[300px]">
-      <Chart
-      options={options}
-      series={options.series}
-      type="line"
-      width="100%"
-      height="100%"
-    />
+        <Chart
+        options={options}
+        series={options.series}
+        type="line"
+        width="100%"
+        height="100%"
+      />
     </div>
   );
 };
