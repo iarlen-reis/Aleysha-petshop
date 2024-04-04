@@ -29,6 +29,7 @@ interface UseHoraryProps {
   addHorary: (data: AddHoraryProps) => void
   addHoraryLoading: boolean
   availableDates: AvailableDate[] | undefined
+  availableDatesLoading: boolean
   editHorary: (data: EditHoraryProps) => void
   editHoraryLoading: boolean
 }
@@ -53,7 +54,7 @@ export const useHorary = (): UseHoraryProps => {
     },
   )
 
-  const { data: availableDates } = useQuery(['availableDates'], async () => {
+  const { data: availableDates, isLoading: availableDatesLoading } = useQuery(['availableDates'], async () => {
     const response = await axios.get<AvailableDate[]>(
       'http://localhost:3000/api/dates',
     )
@@ -86,6 +87,7 @@ export const useHorary = (): UseHoraryProps => {
     addHorary,
     addHoraryLoading,
     availableDates,
+    availableDatesLoading,
     editHorary,
     editHoraryLoading,
   }
