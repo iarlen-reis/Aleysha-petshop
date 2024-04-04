@@ -11,7 +11,7 @@ interface CardHomeButtonProps {
 
 const CardHomeButton = ({ text, link, icon: Icon }: CardHomeButtonProps) => {
   return (
-    <Button className="w-full max-w-[400px] h-[50px] md:h-[60px] lg:max-w-[400px]" asChild>
+    <Button className="w-full max-w-[400px] h-[40px] md:h-[50px] lg:max-w-[400px]" asChild>
       <Link
         href={link}
       >
