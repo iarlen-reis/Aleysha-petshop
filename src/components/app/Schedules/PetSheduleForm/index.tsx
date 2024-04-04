@@ -8,6 +8,7 @@ import SelectField from '@/components/SelectField'
 import { useSchedules } from '@/hooks/useSchedules'
 import TextAreaInput from '@/components/TextAreaField'
 import { FormProvider, useForm } from 'react-hook-form'
+import AddPetScheduleLoading from '@/app/agendamentos/adicionar/loading'
 
 interface FormProps {
   petId: string
@@ -21,10 +22,10 @@ interface ScheduleProps {
 }
 
 const PetScheduleForm = () => {
-  const { pets } = usePet()
-  const { services } = useService()
+  const { pets, petsLoading } = usePet()
+  const { services, servicesLoading } = useService()
   const methods = useForm<FormProps>()
-  const { availableDates } = useHorary()
+  const { availableDates, availableDatesLoading } = useHorary()
   const { addShedule, addSheduleLoading } = useSchedules()
   const [schedule, setSchedule] = useState<ScheduleProps | null>(null)
 
@@ -42,6 +43,10 @@ const PetScheduleForm = () => {
     addShedule(scheduleDate)
     methods.reset()
     setSchedule(null)
+  }
+
+  if(petsLoading || servicesLoading || availableDatesLoading) {
+    return <AddPetScheduleLoading />
   }
 
   return (
