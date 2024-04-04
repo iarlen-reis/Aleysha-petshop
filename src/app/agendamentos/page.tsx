@@ -1,7 +1,12 @@
 import React from "react";
+import prisma from "@/utils/prisma";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/utils/authOptions";
 import { MenuTools } from "@/components/MenuTools";
+import { Pagination } from "@/components/Pagination";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import ScheduleCard from "@/components/app/Schedules/ScheduleCard";
 import FilterSchedules from "@/components/app/Schedules/FilterSchedules";
-import ShowScheduleCards from "@/components/app/Schedules/ShowScheduleCards";
 
 interface Params {
   searchParams: {
@@ -11,6 +16,43 @@ interface Params {
 }
 
 const SchedulePege = async ({ searchParams }: Params) => {
+  const page = Number(searchParams.page) || 1;
+  const status = searchParams.status ?? '';
+
+  const session = await getServerSession(authOptions)
+
+  const allSchedules = await prisma.schedule.count({
+    where: {
+      userId: session?.user.id,
+      status: {
+        contains: status,
+      }
+    },
+  })
+
+  const maxPage = Math.ceil(allSchedules / 9)
+  const existNextPage = page < maxPage;
+  const existPreviousPage = page > 1;
+
+  const schedules = await prisma.schedule.findMany({
+    where: {
+      userId: session?.user.id,
+      status: {
+        contains: status,
+      },
+    },
+    include: {
+      pet: true,
+      service: true,
+      availableDate: true,
+      timeSlot: true,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+    take: 9,
+    skip: (page - 1) * 9,
+  })
   return (
     <div className="min-h-screen w-full flex flex-col gap-8 pb-12">
       <div className="flex flex-col font-ruluko ">
@@ -24,10 +66,39 @@ const SchedulePege = async ({ searchParams }: Params) => {
           href="/agendamentos/adicionar"
         />
       </MenuTools.Root>
-      <ShowScheduleCards
-        status={searchParams.status}
-        page={searchParams.page}
-      />
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-2 xl:grid-cols-3 xl:justify-between">
+        {schedules &&
+          schedules.map((schedule) => (
+            <ScheduleCard key={schedule.id} {...schedule} />
+          ))}
+      </div>
+      <Pagination.Root>
+        {existPreviousPage && (
+          <Pagination.LinkContainer>
+            <Pagination.Link
+              url={`/agendamentos?page=${Number(page) - 1}
+            ${status ? `&status=${status}` : ''}
+            `}
+            >
+              <Pagination.Icon icon={ChevronLeftIcon} />
+            </Pagination.Link>
+          </Pagination.LinkContainer>
+        )}
+        {schedules && maxPage > 1 && (
+          <Pagination.Indicator page={Number(page)} />
+        )}
+        {schedules && existNextPage && (
+          <Pagination.LinkContainer>
+            <Pagination.Link
+              url={`/agendamentos?page=${Number(page) + 1}
+            ${status ? `&status=${status}` : ''}
+            `}
+            >
+              <Pagination.Icon icon={ChevronRightIcon} />
+            </Pagination.Link>
+          </Pagination.LinkContainer>
+        )}
+      </Pagination.Root>
     </div>
   );
 };
