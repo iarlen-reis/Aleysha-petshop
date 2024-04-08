@@ -1,6 +1,6 @@
 import React from 'react'
 
-const loading = () => {
+const ScheduleDetailLoading = () => {
   return (
     <div className="flex flex-col min-h-screen max-w-[600px] mx-auto w-full gap-8 pb-12">
       <ul className="flex items-center gap-1 font-ruluko capitalize lg:mt-3">
@@ -27,4 +27,4 @@ const loading = () => {
   )
 }
 
-export default loading
+export default ScheduleDetailLoading
