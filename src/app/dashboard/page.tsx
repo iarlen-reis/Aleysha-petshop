@@ -28,7 +28,7 @@ import {
 } from "lucide-react";
 
 interface ProductChartProps {
-  id: string;
+  productId: string;
   name: string;
   data: number[];
   quantity: number;
@@ -114,12 +114,12 @@ const DashboardPage = () => {
             <TableHead>Ações</TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+          <TableBody>
           {charts?.charts &&
             charts.charts.map((product) => (
               <TableRow className="text-lg font-ruluko" key={product.name}>
                 <TableCell>
-                  <Link href={`/dashboard/produtos/${product.id}`}>
+                  <Link href={`/dashboard/produtos/editar/${product.productId}`}>
                   {product.name}
                   </Link>
                 </TableCell>
@@ -128,7 +128,7 @@ const DashboardPage = () => {
                   <GraphicLine data={product.data} name={product.name} />
                 </TableCell>
                 <TableCell className="flex items-center justify-start gap-8">
-                  <Link href={`/dashboard/produtos/editar/${product.id}`}>
+                  <Link href={`/dashboard/produtos/editar/${product.productId}`}>
                   <EditIcon className="size-4 text-cyan-500" />
                   </Link>
                 </TableCell>

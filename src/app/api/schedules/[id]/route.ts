@@ -108,3 +108,50 @@ export async function DELETE(request: NextRequest, { params }: ParamProps) {
     return NextResponse.json({ message: error }, { status: 500 })
   }
 }
+
+export async function PATCH(request: NextRequest, { params }: ParamProps) {
+  try {
+    const { session } = await useUser()
+
+    if (!session) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
+    }
+
+    const paramSchema = z.object({
+      id: z.string(),
+    })
+
+    const { id } = paramSchema.parse(params)
+
+    const schedule = await prisma.schedule.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!schedule) {
+      return NextResponse.json(
+        { message: 'Schedule not found' },
+        { status: 404 },
+      )
+    }
+
+    if (schedule.userId !== session.user.id) {
+      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 })
+    }
+
+    const updatedSchedule = await prisma.schedule.update({
+      where: {
+        id,
+      },
+      data: {
+        status: 'completed',
+      },
+    })
+
+    return NextResponse.json(updatedSchedule, { status: 200 })
+  } catch (error) {
+    console.log(error)
+    return NextResponse.json({ message: error }, { status: 500 })
+  }
+}

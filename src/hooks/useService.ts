@@ -13,6 +13,7 @@ interface ServiceProps {
 
 interface UseServiceProps {
   services: ServiceProps[] | undefined
+  servicesLoading: boolean
   getServiceById: (id: string) => void
   service: ServiceProps | undefined
   createServiceLoading: boolean
@@ -27,7 +28,7 @@ export const useService = (): UseServiceProps => {
   const queryClient = useQueryClient()
   const router = useRouter()
 
-  const { data: services } = useQuery('services', async () => {
+  const { data: services, isLoading: servicesLoading } = useQuery('services', async () => {
     const response = await api.get<ServiceProps[]>('/services')
 
     return response.data
@@ -119,6 +120,7 @@ export const useService = (): UseServiceProps => {
 
   return {
     services,
+    servicesLoading,
     service,
     getServiceById,
     createServiceLoading,

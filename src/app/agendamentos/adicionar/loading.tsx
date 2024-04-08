@@ -1,6 +1,6 @@
 import React from 'react'
 
-const loading = () => {
+const AddPetScheduleLoading = () => {
   return (
     <div className="min-h-screen w-full md:max-w-[800px] md:mx-auto pb-10 flex flex-col gap-12">
       <ul className="flex items-center gap-1 font-ruluko capitalize lg:mt-3">
@@ -35,4 +35,4 @@ const loading = () => {
   )
 }
 
-export default loading
+export default AddPetScheduleLoading
