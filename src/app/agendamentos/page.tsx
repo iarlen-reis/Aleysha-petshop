@@ -1,11 +1,14 @@
 import React from "react";
+import Image from "next/image";
 import prisma from "@/utils/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/utils/authOptions";
 import { MenuTools } from "@/components/MenuTools";
 import { Pagination } from "@/components/Pagination";
+import { convertStatus } from "@/utils/convertStatus";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import ScheduleCard from "@/components/app/Schedules/ScheduleCard";
+import NoScheduleImage from "/public/images/schedules/no-schedules.png";
 import FilterSchedules from "@/components/app/Schedules/FilterSchedules";
 
 interface Params {
@@ -17,20 +20,20 @@ interface Params {
 
 const SchedulePege = async ({ searchParams }: Params) => {
   const page = Number(searchParams.page) || 1;
-  const status = searchParams.status ?? '';
+  const status = searchParams.status ?? "";
 
-  const session = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions);
 
   const allSchedules = await prisma.schedule.count({
     where: {
       userId: session?.user.id,
       status: {
         contains: status,
-      }
+      },
     },
-  })
+  });
 
-  const maxPage = Math.ceil(allSchedules / 9)
+  const maxPage = Math.ceil(allSchedules / 9);
   const existNextPage = page < maxPage;
   const existPreviousPage = page > 1;
 
@@ -48,11 +51,12 @@ const SchedulePege = async ({ searchParams }: Params) => {
       timeSlot: true,
     },
     orderBy: {
-      createdAt: 'desc',
+      createdAt: "desc",
     },
     take: 9,
     skip: (page - 1) * 9,
-  })
+  });
+
   return (
     <div className="min-h-screen w-full flex flex-col gap-8 pb-12">
       <div className="flex flex-col font-ruluko ">
@@ -72,12 +76,27 @@ const SchedulePege = async ({ searchParams }: Params) => {
             <ScheduleCard key={schedule.id} {...schedule} />
           ))}
       </div>
+      {!schedules.length && (
+        <div className="flex flex-col items-center gap-2">
+          <Image
+            src={NoScheduleImage}
+            alt="No schedules"
+            width={300}
+            height={300}
+          />
+          <div className="flex flex-col gap-1 items-center text-2xl font-ruluko tracking-wider">
+            <p>Nenhum agendamento</p>
+            {status && <p className="font-semibold">{convertStatus(status)}</p>}
+            <p>encontrado.</p>
+          </div>
+        </div>
+      )}
       <Pagination.Root>
         {existPreviousPage && (
           <Pagination.LinkContainer>
             <Pagination.Link
               url={`/agendamentos?page=${Number(page) - 1}
-            ${status ? `&status=${status}` : ''}
+            ${status ? `&status=${status}` : ""}
             `}
             >
               <Pagination.Icon icon={ChevronLeftIcon} />
@@ -91,7 +110,7 @@ const SchedulePege = async ({ searchParams }: Params) => {
           <Pagination.LinkContainer>
             <Pagination.Link
               url={`/agendamentos?page=${Number(page) + 1}
-            ${status ? `&status=${status}` : ''}
+            ${status ? `&status=${status}` : ""}
             `}
             >
               <Pagination.Icon icon={ChevronRightIcon} />
