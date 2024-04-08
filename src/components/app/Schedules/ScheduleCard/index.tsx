@@ -3,6 +3,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { SearchIcon } from 'lucide-react'
 import { convertStatus } from '@/utils/convertStatus'
+import clsx from 'clsx'
 
 interface PetProps {
   id: string
@@ -56,9 +57,10 @@ const ScheduleCard = (schedule: ScheduleCardProps) => {
             <li className="text-background-rose">{schedule.service.name}</li>
           </ul>
           <ul>
-            <li
-              className={schedule.status === 'canceled' ? 'text-red-500' : ''}
-            >
+            <li className={clsx('', {
+              'text-green-500 font-medium': schedule.status === 'completed',
+              'text-red-500 font-medium': schedule.status === 'canceled',
+            })}>
               {convertStatus(schedule.status)}
             </li>
             <li>
