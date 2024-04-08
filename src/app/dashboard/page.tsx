@@ -52,9 +52,6 @@ const DashboardPage = () => {
     }
   );
 
-  console.log(charts);
-
-
   return (
     <div className="min-h-screen flex flex-col gap-10 pb-12">
       <div className="flex flex-col">
