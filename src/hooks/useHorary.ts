@@ -1,6 +1,6 @@
-import axios from 'axios'
-import { toast } from 'react-toastify'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { toast } from 'react-toastify'
+import { api } from '@/services/api'
 
 interface AddHoraryProps {
   date: string
@@ -39,7 +39,7 @@ export const useHorary = (): UseHoraryProps => {
 
   const { mutate: addHorary, isLoading: addHoraryLoading } = useMutation(
     async ({ date, timeSlot }: AddHoraryProps) => {
-      const response = await axios.post('http://localhost:3000/api/dates', {
+      const response = await api.post('/dates', {
         date,
         timeSlot,
       })
@@ -55,8 +55,8 @@ export const useHorary = (): UseHoraryProps => {
   )
 
   const { data: availableDates, isLoading: availableDatesLoading } = useQuery(['availableDates'], async () => {
-    const response = await axios.get<AvailableDate[]>(
-      'http://localhost:3000/api/dates',
+    const response = await api.get<AvailableDate[]>(
+      '/dates',
     )
 
     return response.data
@@ -64,8 +64,8 @@ export const useHorary = (): UseHoraryProps => {
 
   const { mutate: editHorary, isLoading: editHoraryLoading } = useMutation(
     async ({ availableDateId, timeSlot }: EditHoraryProps) => {
-      const response = await axios.put(
-        `http://localhost:3000/api/dates/${availableDateId}`,
+      const response = await api.put(
+        `/dates/${availableDateId}`,
         {
           timeSlot,
         },
